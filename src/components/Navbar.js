@@ -63,6 +63,7 @@ function Navbar({ titleGradient }) {
               component={Link}
               to={page === 'Home' ? '/' : `/${page}`}
               key={page}
+              className="title-3d-sm"
               sx={{
                 color: 'text.secondary',
                 fontWeight: 600,
@@ -106,6 +107,7 @@ function Navbar({ titleGradient }) {
             >
               <MenuItem
                 onClick={() => setAnchorEl(null)}
+                className="title-3d-sm"
                 sx={{ '&:hover': { color: 'primary.main', backgroundColor: 'rgba(57,255,20,0.1)' } }}
               >
                 <Typography variant="body2" sx={{ fontWeight: 600 }}>

@@ -41,6 +41,29 @@ code {
   }
 }
 
+/* Smaller-amplitude jitter for nav titles (hover only) */
+.title-3d-sm:hover {
+  -webkit-animation: title3dSm 200ms infinite;
+  animation: title3dSm 200ms infinite;
+}
+@keyframes title3dSm {
+  0% {
+    text-shadow: 2px 1.5px rgba(57, 255, 20, 0.55), -2px -2.5px rgba(255, 230, 0, 0.45);
+  }
+  25% {
+    text-shadow: -2px -2.5px rgba(57, 255, 20, 0.55), -2px -2.5px rgba(255, 230, 0, 0.45);
+  }
+  50% {
+    text-shadow: 2px -1.5px rgba(57, 255, 20, 0.55), -2px -2.5px rgba(255, 230, 0, 0.45);
+  }
+  75% {
+    text-shadow: -3px -1.5px rgba(57, 255, 20, 0.55), -2px -2.5px rgba(255, 230, 0, 0.45);
+  }
+  100% {
+    text-shadow: -2px 0 rgba(57, 255, 20, 0.55), -2px -2.5px rgba(255, 230, 0, 0.45);
+  }
+}
+
 /* Neon accent scrollbar */
 ::-webkit-scrollbar {
   width: 11px;

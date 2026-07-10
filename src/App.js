@@ -139,6 +139,7 @@ function App() {
 
             <Box sx={{ textAlign: 'center', pt: { xs: 5, md: 7 }, pb: { xs: 3, md: 4 }, px: 2 }}>
               <Typography component="h1" className="title-3d" sx={{
+                display: 'inline-block',
                 fontWeight: 800,
                 lineHeight: 0.95,
                 letterSpacing: '-0.03em',
