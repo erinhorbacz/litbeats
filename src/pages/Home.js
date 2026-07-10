@@ -113,7 +113,7 @@ function Home({bookData, loading, setLoading, resultsLoaded, setResultsLoaded, g
                                 variant="rounded"
                                 sx = {{
                                     display: loading || genreLoading ? "block" : "none",
-                                    borderRadius: 4,
+                                    borderRadius: "12px",
                                     height: 400,
                                     width: {md: 700, sm: 500, xs: 300},
                                     bgcolor: "rgba(57,255,20,0.07)"
@@ -131,8 +131,6 @@ function Home({bookData, loading, setLoading, resultsLoaded, setResultsLoaded, g
                                 sx = {{
                                     width: {md: 700, sm: 500, xs: 300},
                                     height: 400,
-                                    borderRadius: 16,
-                                    border: "1px solid rgba(57,255,20,0.22)",
                                     boxShadow: "0 0 70px -22px rgba(57,255,20,0.5)",
                                     display: !loading && !genreLoading ? "block" : "none"
                             }}/>
