@@ -4,39 +4,7 @@ import data6600 from '../data/data_6600.json';
 import data9900 from '../data/data_9900.json';
 import data13200 from '../data/data_13200.json';
 
-import {Buffer} from 'buffer';
 import axios from 'axios';
-
-async function getRefreshToken(){
-    // Returns access token and refresh token if successfull
-    // Returns -1 if issues connecting to Spotify API
-
-    var authentication = Buffer.from(process.env.REACT_APP_SPOTIFY_CLIENT_ID + ":" + process.env.REACT_APP_SPOTIFY_SECRET).toString("base64");
-
-    const tokenUrl = 'https://accounts.spotify.com/api/token';
-    const authCode = ""
-
-    try {
-        var response = await axios.post(tokenUrl, {
-            'grant_type': 'authorization_code',
-            'scope': 'playlist-modify-public',
-            'code': authCode,
-            'redirect_uri': process.env.REACT_APP_REDIRECT_URL
-        }, {
-            headers: { 
-                Authorization: "Basic " + authentication,
-                'Content-Type': 'application/x-www-form-urlencoded' 
-            }
-        })
-
-        console.log(response)
-
-        return [response.data.access_token, response.data.refresh_token];
-    } catch (error) {
-        console.log(error);
-        return -1
-    }
-}
 
 async function lookForPlaylist(token, bookName){
     // Returns output dictionary if successful (dict of links. Key = genre. Val = link to playlist.)
@@ -166,23 +134,14 @@ async function createPlaylist(token, data, genre, bookName){
 }
 
 async function refreshToken(){
+    // Asks our token service (see worker/) for a short-lived access token.
+    // The Spotify client secret and refresh token live only on that server,
+    // never in this bundle.
     // Returns token if successfull
-    // Returns -1 if issues connecting to Spotify API
-
-    var authentication = Buffer.from(process.env.REACT_APP_SPOTIFY_CLIENT_ID + ":" + process.env.REACT_APP_SPOTIFY_SECRET).toString("base64");
-
-    const tokenUrl = 'https://accounts.spotify.com/api/token'
+    // Returns -1 if issues connecting to the token service
 
     try {
-        var response = await axios.post(tokenUrl, {
-            'grant_type': 'refresh_token',
-            refresh_token: process.env.REACT_APP_REFRESH_TOKEN
-        }, {
-            headers: { 
-                Authorization: "Basic " + authentication,
-                'Content-Type': 'application/x-www-form-urlencoded' 
-            }
-        })
+        var response = await axios.get(process.env.REACT_APP_TOKEN_ENDPOINT)
 
         return response.data.access_token;
     } catch (error) {
@@ -198,11 +157,6 @@ function timeout(delay) {
 const HandleClick = async function(idx, setLoading, setResultsLoaded, setPlaylistData) {
     // Returns dict where key = genre and val = link
     // Returns -1 errors connecting to Spotify API
-
-    // UNCOMMENT THIS IF YOUR REFRESH TOKEN NEEDS REPLACING
-    // var tokens = await getRefreshToken()
-    // console.log("regular token: " + tokens[0])
-    // console.log("refresh token: " + tokens[1])
 
     setLoading(true);
     setResultsLoaded(true);
@@ -258,7 +212,7 @@ const HandleClick = async function(idx, setLoading, setResultsLoaded, setPlaylis
 
     Object.keys(output).forEach(function(key, index) {
         var lastIdx = output[key].lastIndexOf("/");
-        output[key] = "https://open.spotify.com/embed/user/spotify/playlist" + output[key].slice(lastIdx);
+        output[key] = "https://open.spotify.com/embed/playlist" + output[key].slice(lastIdx);
     });
 
     output = Object.keys(output).sort().reduce(

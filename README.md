@@ -5,14 +5,46 @@
 Create an env file simply called ".env" in root that looks like this:
 
 ```
-REACT_APP_SPOTIFY_CLIENT_ID = ""
-REACT_APP_SPOTIFY_SECRET = ""
-REACT_APP_REDIRECT_URL = ""
 REACT_APP_USER_ID = ""
-REACT_APP_REFRESH_TOKEN = ""
+REACT_APP_TOKEN_ENDPOINT = "http://localhost:8787/token"
 ```
 
-You'll have to ask me for the values of the env file.
+`REACT_APP_USER_ID` is the Spotify user ID of the account that owns the playlists. No secrets go
+in this file — everything in it is baked into the public JS bundle at build time.
+
+## Token service (holds the secrets)
+
+The Spotify client secret and refresh token live in a small Cloudflare Worker under `worker/`,
+never in the frontend. The frontend asks it for a short-lived access token via `GET /token`.
+
+All worker commands are npm scripts (run from the repo root) so you don't have to remember wrangler
+flags. `wrangler` itself is a devDependency, so `npm install` sets everything up.
+
+Local development:
+
+1. Create `worker/.dev.vars` (gitignored) with:
+   ```
+   SPOTIFY_CLIENT_ID=...
+   SPOTIFY_CLIENT_SECRET=...
+   SPOTIFY_REFRESH_TOKEN=...
+   ```
+   (Get the client ID/secret from the Spotify developer dashboard. To mint a refresh token, follow
+   the authorization-code flow described in the "Spotify API" section below — note the redirect URI
+   must be `http://127.0.0.1:PORT/...`, Spotify no longer accepts `localhost` or plain-HTTP URLs.)
+2. `npm run worker:dev` — runs the token service locally on port 8787 (matches `.env`). Keep it
+   running in one terminal while `npm start` runs the frontend in another.
+
+Deploying the worker (one-time setup, then repeat step 3 whenever you change `worker/index.js`):
+
+1. `npm run worker:login` — connect wrangler to your Cloudflare account (once per machine).
+2. `npm run worker:secrets` — uploads the three secrets to Cloudflare (prompts for each value; once,
+   or again whenever a secret changes). These are stored encrypted and never live in the repo.
+3. `npm run worker:deploy` — uploads `worker/index.js`. The first deploy prints your worker URL; put
+   it (plus the `/token` path) into `.env.production`.
+4. Make sure `ALLOWED_ORIGINS` in `worker/wrangler.toml` includes your GitHub Pages origin.
+
+Then `npm run build && npm run deploy` publishes the frontend (`npm run deploy` = the gh-pages step;
+`npm run worker:deploy` is the separate Cloudflare step — don't confuse the two).
 
 ## Include data files
 Mkdir data under src and add book_data.csv (books_ix) as well as data_0.json, data_3300.json, data_6600.json, data_9900.json, data_13200.json.
@@ -41,7 +73,7 @@ Now yes, I don't have full confirmation that the book dataset indices are the ex
 
 Spotify has two authorization flows that apply to the project. 
 
-* First is client side. You simply make a post request with client id and secret and get a token that lasts for an hour. You can use this token to get very basic information. This is good enough for checking the books2nooks playlists, but that's all. I abandoned this later, but for future projects where you only need to view data, this will suffice.
+* First is client side. You simply make a post request with client id and secret and get a token that lasts for an hour. You can use this token to get very basic information. This is good enough for checking the Litbeats playlists, but that's all. I abandoned this later, but for future projects where you only need to view data, this will suffice.
 
 * Second is authorization code. You can follow a spotify link which will take you to a log in page (if you're incognito) to log in. If you've logged into spotify before on your browser, it will let you log in for the app's purposes. The link looks like this:
 

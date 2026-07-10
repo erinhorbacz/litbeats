@@ -40,7 +40,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [resultsLoaded, setResultsLoaded] = useState(false);
   const [genreLoading, setGenreLoading] = useState(false);
-  const [playlistData, setPlaylistData] = useState({"default":"https://open.spotify.com/embed/user/spotify/playlist/0ZtNpjS6cTeLIa1KpQ4cpp"})
+  const [playlistData, setPlaylistData] = useState({"default":"https://open.spotify.com/embed/playlist/0ZtNpjS6cTeLIa1KpQ4cpp"})
   const [genre, setGenre] = useState("default")
 
   useEffect(() => {

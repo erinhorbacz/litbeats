@@ -1,0 +1,9 @@
+name = "litbeats-token"
+main = "index.js"
+compatibility_date = "2026-07-01"
+
+# Non-secret config. The secrets (SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET,
+# SPOTIFY_REFRESH_TOKEN) are NOT set here — locally they come from .dev.vars,
+# in production from `wrangler secret put`.
+[vars]
+ALLOWED_ORIGINS = "http://localhost:3000,https://erinhorbacz.github.io"
