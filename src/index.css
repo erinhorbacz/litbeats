@@ -14,6 +14,33 @@ code {
     monospace;
 }
 
+/* 3D jitter on the LitBeats title: plays briefly on load, loops on hover */
+.title-3d {
+  -webkit-animation: title3d 200ms 10;
+  animation: title3d 200ms 10;
+}
+.title-3d:hover {
+  -webkit-animation: title3d 200ms infinite;
+  animation: title3d 200ms infinite;
+}
+@keyframes title3d {
+  0% {
+    text-shadow: 5px 4px rgba(57, 255, 20, 0.55), -5px -6px rgba(255, 230, 0, 0.45);
+  }
+  25% {
+    text-shadow: -5px -6px rgba(57, 255, 20, 0.55), -5px -6px rgba(255, 230, 0, 0.45);
+  }
+  50% {
+    text-shadow: 5px -4px rgba(57, 255, 20, 0.55), -5px -6px rgba(255, 230, 0, 0.45);
+  }
+  75% {
+    text-shadow: -8px -4px rgba(57, 255, 20, 0.55), -5px -6px rgba(255, 230, 0, 0.45);
+  }
+  100% {
+    text-shadow: -5px 0 rgba(57, 255, 20, 0.55), -5px -6px rgba(255, 230, 0, 0.45);
+  }
+}
+
 /* Neon accent scrollbar */
 ::-webkit-scrollbar {
   width: 11px;

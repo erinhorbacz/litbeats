@@ -56,7 +56,25 @@ function About() {
               transformer models. We train our model using recent advances in fast
               MF algorithms. Finally, we apply weighted regularization
               to encourage small norms in the latent factors so that
-              the learned factorization will be stable. 
+              the learned factorization will be stable.
+          </Typography>
+
+          <Typography component="h3" sx={{
+              fontWeight: 800,
+              fontSize: { xs: "1.5rem", md: "1.9rem" },
+              letterSpacing: "-0.02em",
+              mt: 3,
+              mb: 1,
+              background: "linear-gradient(92deg, #39FF14, #FFE600)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text"
+          }}>
+              The team
+          </Typography>
+          <Typography variant = "body1" sx = {{textIndent: 32, lineHeight: 1.8}}>
+              This project came together from the work of Terrence Shi, Yenho Chen, Neel Sarka,
+              Erin Horbacz, and Gabriela Sánchez Rodríguez.
           </Typography>
       </Box>
     </Fade>

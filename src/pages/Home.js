@@ -37,16 +37,10 @@ function Home({bookData, loading, setLoading, resultsLoaded, setResultsLoaded, g
                 px: 2,
                 pb: 16
             }}>
-                {/* Search card */}
+                {/* Search */}
                 <Box sx = {{
                     width: { md: 760, sm: 560, xs: 340 },
                     maxWidth: "94vw",
-                    p: { xs: 3, md: 4 },
-                    borderRadius: 5,
-                    border: "1px solid rgba(57,255,20,0.15)",
-                    background: "linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.012))",
-                    backdropFilter: "blur(6px)",
-                    boxShadow: "0 30px 80px -44px rgba(57,255,20,0.35)",
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
@@ -58,7 +52,7 @@ function Home({bookData, loading, setLoading, resultsLoaded, setResultsLoaded, g
                         letterSpacing: "0.02em",
                         textAlign: "center"
                     }}>
-                        Pick a book — get its soundtrack.
+                        Pick a book — get a personalized soundtrack.
                     </Typography>
 
                     <Autocomplete
