@@ -68,7 +68,7 @@ function Navbar({ titleGradient }) {
                 color: 'text.secondary',
                 fontWeight: 600,
                 px: 2,
-                '&:hover': { color: 'primary.main', backgroundColor: 'rgba(57,255,20,0.08)' },
+                '&:hover': { color: 'primary.main', backgroundColor: 'transparent' },
               }}
             >
               {page}
@@ -108,7 +108,7 @@ function Navbar({ titleGradient }) {
               <MenuItem
                 onClick={() => setAnchorEl(null)}
                 className="title-3d-sm"
-                sx={{ '&:hover': { color: 'primary.main', backgroundColor: 'rgba(57,255,20,0.1)' } }}
+                sx={{ '&:hover': { color: 'primary.main', backgroundColor: 'transparent' } }}
               >
                 <Typography variant="body2" sx={{ fontWeight: 600 }}>
                   {page}
