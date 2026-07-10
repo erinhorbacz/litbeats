@@ -10,74 +10,114 @@ import Typography from '@mui/material/Typography';
 
 import { Link } from "react-router-dom";
 
-const pages = ['Home','About'];
+const pages = ['Home', 'About'];
 
-function Navbar () {
+function Navbar({ titleGradient }) {
   const [anchorEl, setAnchorEl] = useState(null);
+
+  const brand = (
+    <Typography
+      component={Link}
+      to="/"
+      sx={{
+        fontWeight: 800,
+        fontSize: '1.25rem',
+        letterSpacing: '-0.02em',
+        textDecoration: 'none',
+        background: titleGradient,
+        WebkitBackgroundClip: 'text',
+        WebkitTextFillColor: 'transparent',
+        backgroundClip: 'text',
+      }}
+    >
+      LitBeats
+    </Typography>
+  );
+
+  const barSx = {
+    position: 'sticky',
+    top: 0,
+    zIndex: 20,
+    px: { xs: 2, sm: 4 },
+    py: 1.5,
+    backdropFilter: 'blur(12px)',
+    backgroundColor: 'rgba(10,11,10,0.72)',
+    borderBottom: '1px solid rgba(57,255,20,0.16)',
+  };
 
   return (
     <Box>
-        <Box sx = {{
-            display: {sm: 'flex', xs: 'none'}, 
-            gap: 1, 
-            p: 2,
-            flexDirection: 'row',
-            alignItems: 'center',
-            background: 'linear-gradient(120deg, #3961bb, #9a3dbc)'
-        }}>
-            {pages.map((page) => (
+      {/* Desktop */}
+      <Box sx={{
+        ...barSx,
+        display: { sm: 'flex', xs: 'none' },
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+      }}>
+        {brand}
+        <Box sx={{ display: 'flex', gap: 1 }}>
+          {pages.map((page) => (
             <Button
-                variant="text"
-                component = {Link}
-                to = {page === 'Home' ? '/' : `/${page}`}
-                key = {page}
-                sx = {{color: 'white'}}
+              variant="text"
+              component={Link}
+              to={page === 'Home' ? '/' : `/${page}`}
+              key={page}
+              sx={{
+                color: 'text.secondary',
+                fontWeight: 600,
+                px: 2,
+                '&:hover': { color: 'primary.main', backgroundColor: 'rgba(57,255,20,0.08)' },
+              }}
             >
-                {page}
+              {page}
             </Button>
-            ))}
+          ))}
         </Box>
+      </Box>
 
-        <Box 
-            sx = {{display: {sm: 'none', xs: 'flex'}, 
-            p: 2,
-            background: 'linear-gradient(120deg, #3961bb, #9a3dbc)'
-        }}>
-            <IconButton onClick = {(event) => {setAnchorEl(event.currentTarget)}}>
-                <MenuIcon/>
-            </IconButton>
+      {/* Mobile */}
+      <Box sx={{
+        ...barSx,
+        display: { sm: 'none', xs: 'flex' },
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+      }}>
+        {brand}
+        <IconButton
+          onClick={(event) => { setAnchorEl(event.currentTarget) }}
+          sx={{ color: 'primary.main' }}
+        >
+          <MenuIcon />
+        </IconButton>
 
-            <Menu
-                anchorEl={anchorEl}
-                open={Boolean(anchorEl)}
-                onClose={() => {setAnchorEl(null)}}
-                sx = {{".MuiMenu-list": { py: 0 }}}
+        <Menu
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={() => { setAnchorEl(null) }}
+          sx={{ ".MuiMenu-list": { py: 0.5 } }}
+        >
+          {pages.map((page) => (
+            <Link
+              style={{ textDecoration: "none", color: "inherit" }}
+              to={page === 'Home' ? '/' : `/${page}`}
+              key={page}
             >
-
-                {pages.map((page, idx) => (
-                    <Link 
-                        style = {{textDecoration: "none", color: "white"}} 
-                        to = {page === 'Home' ? '/' : `/${page}`} 
-                        key={page}
-                    >
-                        <Box 
-                            sx = {{
-                                pb: idx === pages.length - 1 ? 1 : 0,
-                                pt: idx === 0 ? 1 : 0
-                            }} 
-                            onClick={() => setAnchorEl(null)}
-                        >
-                            <MenuItem>
-                                <Typography variant = "body2">
-                                    {page}
-                                </Typography>
-                            </MenuItem>
-                        </Box>
-                    </Link>
-                ))}
-            </Menu>
-        </Box>
+              <MenuItem
+                onClick={() => setAnchorEl(null)}
+                sx={{ '&:hover': { color: 'primary.main', backgroundColor: 'rgba(57,255,20,0.1)' } }}
+              >
+                <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                  {page}
+                </Typography>
+              </MenuItem>
+            </Link>
+          ))}
+        </Menu>
+      </Box>
     </Box>
   );
-};
+}
+
 export default Navbar;

@@ -13,6 +13,7 @@ function Home({bookData, loading, setLoading, resultsLoaded, setResultsLoaded, g
     const [cantConnect, setCantConnect] = useState(false);
 
     async function btnClick(){
+        setCantConnect(false);
         const idx = bookData.indexOf(inputValue);
         var hc = await HandleClick(idx, setLoading, setResultsLoaded, setPlaylistData);
         if(hc === -1){
@@ -29,45 +30,81 @@ function Home({bookData, loading, setLoading, resultsLoaded, setResultsLoaded, g
     return (
         <Fade in = {true} timeout={{ enter: 1500 }}>
             <Box sx = {{
-                display: "flex", 
-                flexDirection: "column", 
+                display: "flex",
+                flexDirection: "column",
                 alignItems: "center",
-                gap: 3,
+                gap: 4,
+                px: 2,
                 pb: 16
             }}>
-                <Autocomplete
-                    disableClearable
-                    open={open}
-                    onClose={() => setOpen(false)}
-                    onChange={(event, value) => {
-                        setInputValue(value);
-                        setDisabledBtn(false);
-                    }}
-                    onInputChange={(event, value) => {
-                        if (value.length > 2) {
-                            setOpen(true);
-                        } else {
-                            setOpen(false);
-                        }
-                    }}
-                    options={bookData}
-                    sx={{ width: {md: 700, sm: 500, xs: 300} }}
-                    renderInput={(params) => <TextField {...params} label="Enter a book title" variant="outlined" />}
-                />
+                {/* Search card */}
+                <Box sx = {{
+                    width: { md: 760, sm: 560, xs: 340 },
+                    maxWidth: "94vw",
+                    p: { xs: 3, md: 4 },
+                    borderRadius: 5,
+                    border: "1px solid rgba(57,255,20,0.15)",
+                    background: "linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.012))",
+                    backdropFilter: "blur(6px)",
+                    boxShadow: "0 30px 80px -44px rgba(57,255,20,0.35)",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    gap: 2.5
+                }}>
+                    <Typography sx={{
+                        color: "text.secondary",
+                        fontWeight: 600,
+                        letterSpacing: "0.02em",
+                        textAlign: "center"
+                    }}>
+                        Pick a book — get its soundtrack.
+                    </Typography>
 
-                <Box>
-                    <Button variant="contained" disabled = {disabledBtn || inputValue === null} onClick = {btnClick}>
+                    <Autocomplete
+                        disableClearable
+                        open={open}
+                        onClose={() => setOpen(false)}
+                        onChange={(event, value) => {
+                            setInputValue(value);
+                            setDisabledBtn(false);
+                        }}
+                        onInputChange={(event, value) => {
+                            if (value.length > 2) {
+                                setOpen(true);
+                            } else {
+                                setOpen(false);
+                            }
+                        }}
+                        options={bookData}
+                        sx={{ width: "100%" }}
+                        renderInput={(params) => <TextField {...params} label="Enter a book title" variant="outlined" />}
+                    />
+
+                    <Button
+                        variant="contained"
+                        disabled={disabledBtn || inputValue === null}
+                        onClick={btnClick}
+                        sx={{ mt: 0.5, width: { xs: "100%", sm: "auto" } }}
+                    >
                         Generate Playlist
                     </Button>
                 </Box>
 
-                <Fade in = {cantConnect} timeout={{ enter: 1500 }}>
-                    <Typography variant = "h5" align = "center" sx={{ 
-                        width: {md: 700, sm: 500, xs: 300},
-                        display: cantConnect ? "block" : "none"
+                <Fade in = {cantConnect} timeout={{ enter: 1200 }}>
+                    <Box sx={{
+                        display: cantConnect ? "block" : "none",
+                        width: { md: 700, sm: 500, xs: 340 },
+                        maxWidth: "94vw",
+                        p: 2.5,
+                        borderRadius: 3,
+                        border: "1px solid rgba(255,230,0,0.4)",
+                        backgroundColor: "rgba(255,230,0,0.06)"
                     }}>
-                        Issues connecting to spotify backend. Try again later or contact me at terrenceshi@gmail.com if the issue persists.
-                    </Typography>
+                        <Typography variant="body1" align="center" sx={{ color: "secondary.main", fontWeight: 600 }}>
+                            Couldn't reach Spotify right now. Give it a moment and try again.
+                        </Typography>
+                    </Box>
                 </Fade>
 
                 <Fade in = {resultsLoaded} timeout={{ enter: 1500 }}>
@@ -78,13 +115,14 @@ function Home({bookData, loading, setLoading, resultsLoaded, setResultsLoaded, g
                         gap: 3
                     }}>
                         <Fade in = {loading || genreLoading} timeout={{ enter: 1500 }}>
-                            <Skeleton 
-                                variant="rounded" 
+                            <Skeleton
+                                variant="rounded"
                                 sx = {{
                                     display: loading || genreLoading ? "block" : "none",
                                     borderRadius: 4,
                                     height: 400,
-                                    width: {md: 700, sm: 500, xs: 300}
+                                    width: {md: 700, sm: 500, xs: 300},
+                                    bgcolor: "rgba(57,255,20,0.07)"
                                 }}
                             />
                         </Fade>
@@ -94,11 +132,14 @@ function Home({bookData, loading, setLoading, resultsLoaded, setResultsLoaded, g
                                 title = "myFrame"
                                 id="spotifyPlaylist"
                                 src= {playlistData[genre]}
-                                frameBorder="0" 
+                                frameBorder="0"
                                 allowtransparency="true"
                                 sx = {{
                                     width: {md: 700, sm: 500, xs: 300},
                                     height: 400,
+                                    borderRadius: 16,
+                                    border: "1px solid rgba(57,255,20,0.22)",
+                                    boxShadow: "0 0 70px -22px rgba(57,255,20,0.5)",
                                     display: !loading && !genreLoading ? "block" : "none"
                             }}/>
                         </Fade>
@@ -108,9 +149,9 @@ function Home({bookData, loading, setLoading, resultsLoaded, setResultsLoaded, g
                                 display: "flex",
                                 flexDirection: "column",
                                 alignItems: "center",
-                                gap: 3
+                                gap: 2
                             }}>
-                                <Typography variant = "h6">
+                                <Typography variant = "h6" sx={{ color: "text.primary" }}>
                                     Don't like what you see?
                                 </Typography>
 

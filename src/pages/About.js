@@ -4,15 +4,28 @@ function About() {
   return (
     <Fade in = {true} timeout={{ enter: 1500 }}>
       <Box sx = {{
-          display: "flex", 
-          flexDirection: "column", 
-          gap: 2, 
-          margin: "auto", 
+          display: "flex",
+          flexDirection: "column",
+          gap: 2,
+          margin: "auto",
           width: {md: 800, sm: 500, xs: 330},
+          px: 2,
           pb: 16
       }}>
-          <Typography variant = "body1" sx = {{textIndent: 32}}>
-              Books To Nooks takes in an input of a book and returns you a spotify playlist!
+          <Typography component="h2" sx={{
+              fontWeight: 800,
+              fontSize: { xs: "1.9rem", md: "2.4rem" },
+              letterSpacing: "-0.02em",
+              mb: 1,
+              background: "linear-gradient(92deg, #39FF14, #FFE600)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text"
+          }}>
+              How it works
+          </Typography>
+          <Typography variant = "body1" sx = {{textIndent: 32, lineHeight: 1.8, color: "text.primary"}}>
+              LitBeats takes in an input of a book and returns you a spotify playlist!
               We collected 16k books and 400k songs. Then, the book descriptions and song lyrics
               turn into numbers using Natural Language Processing (NLP) vectorization techniques. 
               With these numbers, we can compute cosine similarity scores. We then stored the top 
